@@ -5,10 +5,10 @@
  *      Author: z003xwaj
  */
 
-#include <ostream>
-
 #ifndef REVERSE_LINKED_LIST_INC_LINKEDLIST_H_
 #define REVERSE_LINKED_LIST_INC_LINKEDLIST_H_
+
+#include <ostream>
 
 template <typename T>
 class LinkedList
@@ -110,6 +110,9 @@ std::ostream& LinkedList<T>::print(std::ostream& out) const
 template <typename T>
 bool LinkedList<T>::insertAfter(LinkedList<T>* matchNode, LinkedList<T>* newNode)
 {
+    if(nullptr == matchNode || nullptr == newNode)
+        return false;
+
     bool isMatchNodeFound = false;
 
     for(LinkedList<T>* node = this; nullptr != node; node = node->next())

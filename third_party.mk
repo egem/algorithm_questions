@@ -1,1 +1,1 @@
-THIRD_PARTY_DIR    := $(CURDIR)/third_party
+THIRD_PARTY_DIR    := $(PROJECT_ROOT_DIR)/third_party

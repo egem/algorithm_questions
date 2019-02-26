@@ -1,24 +1,19 @@
-include project.mk
+CUR_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
+CUR_DIR := $(patsubst %/,%,$(CUR_DIR))
+CUR_DIR := $(patsubst %\,%,$(CUR_DIR))
 
-IMPLEMENTATIONS := $(CURDIR)/forward_link_list
+export PROJECT_ROOT_DIR := $(CUR_DIR)
+export CC := g++
+export CFLAGS := -Wall
+
+include $(PROJECT_ROOT_DIR)/project.mk
+
+IMPS       := forward_link_list
+
+IMPS_DIR   := $(PROJECT_ROOT_DIR)
 
 .PHONY: all
 
-all: $(IMPLEMENTATIONS)
-
-$(CURDIR)/%: | $(GOOGLETEST_DIR)
-	make -f $@/Makefile all CURDIR=$@
-
-$(GOOGLETEST_DIR): | $(THIRD_PARTY_DIR)
-	cd $(THIRD_PARTY_DIR) &&\
-	git clone $(GOOGLETEST_REPO) && \
-	cd $(GOOGLETEST_DIR) && \
-	git checkout $(GOOGLETEST_VERSION) && \
-	mkdir $(GOOGLETEST_BUILD_DIR) && \
-	cd $(GOOGLETEST_BUILD_DIR) && \
-	cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=$(GOOGLETEST_BUILD_DIR) .. && \
-	make && \
-	make install
-
-$(THIRD_PARTY_DIR):
-	mkdir $(THIRD_PARTY_DIR)
+all: 
+	$(foreach IMP, $(IMPS), make -f $(IMPS_DIR)/$(IMP)/Makefile all)
+	

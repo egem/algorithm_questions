@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include "../../forward_link_list/inc/LinkedList.h"
+#include "LinkedList.h"
 
 using namespace std;
 

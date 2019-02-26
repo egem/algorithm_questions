@@ -1,11 +1,22 @@
-CC := g++
+ifeq ($(PROJECT_ROOT_DIR),)
+$(error Please provide PROJECT_ROOT_DIR)
+endif
 
-SRC_DIR := ${CURDIR}/src
-INC_DIR := ${CURDIR}/inc
-DEP_DIR := $(CURDIR)/dep
-BIN_DIR := ${CURDIR}/bin
-OBJ_DIR := ${CURDIR}/obj
+include $(PROJECT_ROOT_DIR)/project.mk
 
+CUR_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
+CUR_DIR := $(patsubst %/,%,$(CUR_DIR))
+CUR_DIR := $(patsubst %\,%,$(CUR_DIR))
+
+SRC_DIR  := ${CUR_DIR}/src
+INC_DIR  := ${CUR_DIR}/inc
+DEP_DIR  := $(CUR_DIR)/dep
+BIN_DIR  := ${CUR_DIR}/bin
+OBJ_DIR  := ${CUR_DIR}/obj
+TEST_DIR := ${CUR_DIR}/test
+
+export PROJECT_FORWARD_LIST_DIR        := $(CUR_DIR)
+export PROJECT_FORWARD_LIST_INC_DIR    := $(INC_DIR)
 
 EXE_NAME := main
 
@@ -13,8 +24,7 @@ SRCS = $(shell find $(SRC_DIR) -name *.cpp)
 OBJS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(notdir $(SRCS)))
 DEPS := $(patsubst %.cpp, $(DEP_DIR)/%.d, $(notdir $(SRCS)))
 
-
-CFLAGS := -I$(INC_DIR) -Wall
+CFLAGS += -I$(INC_DIR)
 
 # Check whether the compiler support this feature.
 # The GNU Compiler Collection contains a C preprocessor that can generate make dependency files.
@@ -23,10 +33,13 @@ CFLAGS := -I$(INC_DIR) -Wall
 # https://www.gnu.org/software/make/manual/make.html#Automatic-Prerequisites Title : 4.14 Generating Prerequisites Automatically 
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEP_DIR)/$*.Td
 
-.PHONY: all clean cleanObj cleanBin cleanDep
+.PHONY: all clean cleanObj cleanBin cleanDep test
 
-all : $(BIN_DIR)/$(EXE_NAME) 
-	
+all : $(BIN_DIR)/$(EXE_NAME) test
+
+test :
+	@make -f $(TEST_DIR)/Makefile all
+
 $(BIN_DIR)/$(EXE_NAME): $(OBJS) | $(BIN_DIR)
 	@printf "Building $(notdir $@) in $(BIN_DIR) path\n"
 	@$(CC) -o $@ $?
@@ -42,21 +55,29 @@ $(DEP_DIR)/%.d: ;
 .PRECIOUS: $(DEP_DIR)/%.d $(OBJ_DIR)/%.o
 
 $(BIN_DIR):
-	mkdir $(BIN_DIR)
+	@printf "Creating directory $(BIN_DIR)\n"
+	@mkdir $(BIN_DIR)
 
 $(OBJ_DIR):
-	mkdir $(OBJ_DIR)
+	@printf "Creating directory $(OBJ_DIR)\n"
+	@mkdir $(OBJ_DIR)
 
 $(DEP_DIR):
-	mkdir $(DEP_DIR)
+	@printf "Creating directory $(DEP_DIR)\n"
+	@mkdir $(DEP_DIR)
+
+clean: cleanObj cleanBin cleanDep
 
 cleanObj:
-	rm -rf $(OBJ_DIR)
+	@printf "Cleaning objects...\n"
+	@rm -rf $(OBJ_DIR)
 
 cleanBin:
-	rm -rf $(BIN_DIR)
+	@printf "Cleaning executables...\n"
+	@rm -rf $(BIN_DIR)
 
 cleanDep:
-	rm -rf $(DEP_DIR)
+	@printf "Cleaning dependencies...\n"
+	@rm -rf $(DEP_DIR)
 	
-clean: cleanObj cleanBin cleanDep
+

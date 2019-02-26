@@ -1,0 +1,4 @@
+.*project
+dep/*
+bin/*
+obj/*
