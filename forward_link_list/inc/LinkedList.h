@@ -16,9 +16,14 @@ class LinkedList
     T m_data;
     LinkedList<T>* m_Next;
 
+    LinkedList(const LinkedList<T>& rhs) = delete;
+    LinkedList<T>& operator=(const LinkedList<T>& rhs) = delete;
+
 public:
     LinkedList(T data);
     LinkedList(T data, LinkedList<T>* next);
+
+    ~LinkedList() = default;
 
     LinkedList<T>* reverse();
     std::ostream& print(std::ostream& out) const;
@@ -38,6 +43,7 @@ public:
     LinkedList<T>& setNext(LinkedList<T>& node);
 
     LinkedList<T>* next() const;
+    LinkedList<T>* tail() const;
 
     void setData(T data);
     T data() const;
@@ -120,7 +126,7 @@ bool LinkedList<T>::insertAfter(LinkedList<T>* matchNode, LinkedList<T>* newNode
         if(node == matchNode)
         {
             isMatchNodeFound = true;
-            newNode->setNext(node->next());
+            newNode->tail()->setNext(node->next());
             node->setNext(newNode);
             break;
         }
@@ -139,7 +145,7 @@ bool LinkedList<T>::insertAfter(LinkedList<T>& matchNode, LinkedList<T>& newNode
         if(node == (&matchNode))
         {
             isMatchNodeFound = true;
-            newNode.setNext(node->next());
+            newNode.tail()->setNext(node->next());
             node->setNext(&newNode);
             break;
         }
@@ -151,7 +157,10 @@ bool LinkedList<T>::insertAfter(LinkedList<T>& matchNode, LinkedList<T>& newNode
 template <typename T>
 LinkedList<T>* LinkedList<T>::insertAfter(LinkedList<T>* newNode)
 {
-    newNode->setNext(next());
+    if(nullptr == newNode)
+        return nullptr;
+
+    newNode->tail()->setNext(next());
     setNext(newNode);
 
     return newNode;
@@ -160,7 +169,7 @@ LinkedList<T>* LinkedList<T>::insertAfter(LinkedList<T>* newNode)
 template <typename T>
 LinkedList<T>& LinkedList<T>::insertAfter(LinkedList<T>& newNode)
 {
-    newNode.setNext(next());
+    newNode.tail()->setNext(next());
     setNext(newNode);
 
     return newNode;
@@ -176,7 +185,7 @@ bool LinkedList<T>::insertBefore(LinkedList<T>* matchNode, LinkedList<T>* newNod
         if(node->next() == matchNode)
         {
             isMatchNodeFound = true;
-            newNode->setNext(matchNode);
+            newNode->tail()->setNext(matchNode);
             node->setNext(newNode);
             break;
         }
@@ -195,7 +204,7 @@ bool LinkedList<T>::insertBefore(LinkedList<T>& matchNode, LinkedList<T>& newNod
         if(node->next() == (&matchNode))
         {
             isMatchNodeFound = true;
-            newNode.setNext(matchNode);
+            newNode.tail()->setNext(matchNode);
             node->setNext(newNode);
             break;
         }
@@ -239,12 +248,6 @@ bool LinkedList<T>::deleteNode(LinkedList<T>& matchNode)
 }
 
 template <typename T>
-LinkedList<T>* LinkedList<T>::next() const
-{
-    return m_Next;
-}
-
-template <typename T>
 LinkedList<T>* LinkedList<T>::setNext(LinkedList<T>* node)
 {
     m_Next = node;
@@ -254,8 +257,27 @@ LinkedList<T>* LinkedList<T>::setNext(LinkedList<T>* node)
 template <typename T>
 LinkedList<T>& LinkedList<T>::setNext(LinkedList<T>& node)
 {
-    m_Next = const_cast<LinkedList<T>*>(&node);
+    m_Next = &node;
     return *m_Next;
+}
+
+template <typename T>
+LinkedList<T>* LinkedList<T>::next() const
+{
+    return m_Next;
+}
+
+template <typename T>
+LinkedList<T>* LinkedList<T>::tail() const
+{
+    LinkedList<T>* node = const_cast<LinkedList<T>*>(this);
+
+    while(nullptr != node->next())
+    {
+        node = node->next();
+    }
+
+    return node;
 }
 
 template <typename T>
