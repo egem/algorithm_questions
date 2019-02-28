@@ -171,7 +171,7 @@ LinkedList<T>* LinkedList<T>::insertAfter(LinkedList<T>* newNode)
 template <typename T>
 LinkedList<T>& LinkedList<T>::insertAfter(LinkedList<T>& newNode)
 {
-    LinkedList<T>* newNodeTail = newNode->tail();
+    LinkedList<T>* newNodeTail = newNode.tail();
 
     newNodeTail->setNext(next());
     setNext(newNode);
@@ -182,7 +182,16 @@ LinkedList<T>& LinkedList<T>::insertAfter(LinkedList<T>& newNode)
 template <typename T>
 bool LinkedList<T>::insertBefore(LinkedList<T>* matchNode, LinkedList<T>* newNode)
 {
+    if(nullptr == matchNode || nullptr == newNode)
+        return false;
+
     bool isMatchNodeFound = false;
+
+    if(this == matchNode)
+    {
+        newNode->tail()->setNext(this);
+        return true;
+    }
 
     for(LinkedList<T>* node = this; nullptr != node; node = node->next())
     {
@@ -203,6 +212,12 @@ bool LinkedList<T>::insertBefore(LinkedList<T>& matchNode, LinkedList<T>& newNod
 {
     bool isMatchNodeFound = false;
 
+    if(this == &matchNode)
+    {
+        newNode.tail()->setNext(this);
+        return true;
+    }
+
     for(LinkedList<T>* node = this; nullptr != node; node = node->next())
     {
         if(node->next() == (&matchNode))
@@ -219,6 +234,15 @@ bool LinkedList<T>::insertBefore(LinkedList<T>& matchNode, LinkedList<T>& newNod
 template <typename T>
 bool LinkedList<T>::deleteNode(LinkedList<T>* matchNode)
 {
+    if(nullptr == matchNode)
+        return false;
+
+    if(this == matchNode)
+    {
+        setNext(nullptr);
+        return true;
+    }
+
     bool isMatchNodeFound = false;
 
     for(LinkedList<T>* node = this; nullptr != node; node = node->next())
