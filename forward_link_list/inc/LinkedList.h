@@ -68,7 +68,7 @@ LinkedList<T>* LinkedList<T>::reverse()
 
     LinkedList<T>* last;
     LinkedList<T>* lastPrev;
-    LinkedList<T>* reversedHead;
+    LinkedList<T>* reversedHead = this;
 
     // Reverse Linked List
     while(nullptr != next())

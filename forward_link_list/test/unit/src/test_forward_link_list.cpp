@@ -393,7 +393,7 @@ TEST_F(InsertBefore_Input_Match_Node_Reference_and_New_Node_Reference, test_RETU
 
 
 /*
- * Function under test : bool deleteNode(LinkedList<T>* matchNode);
+ * Function under test : bool deleteNode(LinkedList<T>* matchNode)
  */
 
 TEST_F(DeleteNode_Input_Match_Node_Address, test_RETURN_FALSE_when_MATCH_NODE_NULL)
@@ -476,7 +476,7 @@ TEST_F(DeleteNode_Input_Match_Node_Address, test_RETURN_TRUE_when_MATCH_NODE_FOU
 
 
 /*
- * Function under test : bool deleteNode(LinkedList<T>& matchNode);
+ * Function under test : bool deleteNode(LinkedList<T>& matchNode)
  */
 
 TEST_F(DeleteNode_Input_Match_Node_Reference, test_RETURN_FALSE_when_MATCH_NODE_NOT_FOUND)
@@ -541,7 +541,110 @@ TEST_F(DeleteNode_Input_Match_Node_Reference, test_RETURN_TRUE_when_MATCH_NODE_F
     EXPECT_EQ(&l2, l1.next())               << TestInfo();
     EXPECT_EQ(&l3, l2.next())               << TestInfo();
     EXPECT_EQ(&l4, l3.next())               << TestInfo();
-    EXPECT_EQ(nullptr, l4.next())               << TestInfo();
+    EXPECT_EQ(nullptr, l4.next())           << TestInfo();
 }
 
+
+/*
+ * Function under test : LinkedList<T>* tail() const
+ */
+
+TEST_F(Tail_Input_Void, test_RETURN_OWN_ADDRESS_when_NEXT_IS_NULL)
+{
+    /************************** Arrange **************************/
+    LinkedList<int> l1(5);
+    LinkedList<int>* expectedOutput = &l1;
+
+    /************************** Act **************************/
+    LinkedList<int>* output = l1.tail();
+
+    /************************** Assert **************************/
+    EXPECT_EQ(expectedOutput, output)   << TestInfo();
+}
+
+TEST_F(Tail_Input_Void, test_RETURN_TAIL_ADDRESS_when_NEXT_NOT_NULL)
+{
+    /************************** Arrange **************************/
+    LinkedList<int> l1(5), l2(7);
+    LinkedList<int>* expectedOutput = &l2;
+
+    l1.insertAfter(l2);
+
+    /************************** Act **************************/
+    LinkedList<int>* output = l1.tail();
+
+    /************************** Assert **************************/
+    EXPECT_EQ(expectedOutput, output)       << TestInfo();
+}
+
+TEST_F(Tail_Input_Void, test_RETURN_TAIL_ADDRESS_when_NEXT_HAS_NEXT)
+{
+    /************************** Arrange **************************/
+    LinkedList<int> l1(5), l2(7), l3(9), l4(11), l5(13);
+    LinkedList<int>* expectedOutput = &l5;
+    LinkedList<int>* output;
+
+    l1.insertAfter(l2).insertAfter(l3).insertAfter(l4).insertAfter(l5);
+
+    /************************** Act **************************/
+    output = l1.tail();
+
+    /************************** Assert **************************/
+    EXPECT_EQ(expectedOutput, output)       << TestInfo();
+}
+
+
+/*
+ * Function under test : LinkedList<T>* reverse()
+ */
+
+TEST_F(Reverse_Input_Void, test_RETURN_OWN_ADDRESS_when_NEXT_IS_NULL)
+{
+    /************************** Arrange **************************/
+    LinkedList<int> l1(5);
+    LinkedList<int>* expectedOutput = &l1;
+
+    /************************** Act **************************/
+    LinkedList<int>* output = l1.reverse();
+
+    /************************** Assert **************************/
+    EXPECT_EQ(expectedOutput, output)   << TestInfo();
+}
+
+TEST_F(Reverse_Input_Void, test_RETURN_TAIL_ADDRESS_when_NEXT_NOT_NULL)
+{
+    /************************** Arrange **************************/
+    LinkedList<int> l1(5), l2(7);
+    LinkedList<int>* expectedOutput = &l2;
+
+    l1.insertAfter(l2);
+
+    /************************** Act **************************/
+    LinkedList<int>* output = l1.reverse();
+
+    /************************** Assert **************************/
+    EXPECT_EQ(expectedOutput, output)       << TestInfo();
+    EXPECT_EQ(&l1, l2.next())               << TestInfo();
+    EXPECT_EQ(nullptr, l1.next())           << TestInfo();
+}
+
+TEST_F(Reverse_Input_Void, test_RETURN_TAIL_ADDRESS_when_NEXT_HAS_NEXT)
+{
+    /************************** Arrange **************************/
+    LinkedList<int> l1(5), l2(7), l3(9), l4(11), l5(13);
+    LinkedList<int>* expectedOutput = &l5;
+    LinkedList<int>* output;
+
+    l1.insertAfter(l2).insertAfter(l3).insertAfter(l4).insertAfter(l5);
+
+    /************************** Act **************************/
+    output = l1.reverse();
+
+    /************************** Assert **************************/
+    EXPECT_EQ(expectedOutput, output)       << TestInfo();
+    EXPECT_EQ(&l4, l5.next())               << TestInfo();
+    EXPECT_EQ(&l3, l4.next())               << TestInfo();
+    EXPECT_EQ(&l2, l3.next())               << TestInfo();
+    EXPECT_EQ(&l1, l2.next())               << TestInfo();
+}
 

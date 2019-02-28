@@ -255,4 +255,67 @@ public:
         return m_TestInfo.str();
     }
 };
+
+class Tail_Input_Void : public ::testing::Test
+{
+    std::string m_ClassName;
+    std::string m_FunctionName;
+    std::stringstream m_TestInfo;
+
+public:
+    Tail_Input_Void() :
+        m_ClassName("LinkedList<T>"),
+        m_FunctionName("LinkedList<T>* tail() const")
+    {
+        m_TestInfo          << "Class Name    : " << m_ClassName << std::endl
+                            << "Function Name : " << m_FunctionName << std::endl;
+    }
+
+    virtual void SetUp()
+    {
+
+    }
+
+    virtual void TearDown()
+    {
+
+    }
+
+    std::string TestInfo()
+    {
+        return m_TestInfo.str();
+    }
+};
+
+class Reverse_Input_Void : public ::testing::Test
+{
+    std::string m_ClassName;
+    std::string m_FunctionName;
+    std::stringstream m_TestInfo;
+
+public:
+    Reverse_Input_Void() :
+        m_ClassName("LinkedList<T>"),
+        m_FunctionName("LinkedList<T>* reverse()")
+    {
+        m_TestInfo          << "Class Name    : " << m_ClassName << std::endl
+                            << "Function Name : " << m_FunctionName << std::endl;
+    }
+
+    virtual void SetUp()
+    {
+
+    }
+
+    virtual void TearDown()
+    {
+
+    }
+
+    std::string TestInfo()
+    {
+        return m_TestInfo.str();
+    }
+};
+
 #endif /* FORWARD_LINK_LIST_TEST_UNIT_INC_TEST_FORWARD_LINK_LIST_H_ */
