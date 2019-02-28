@@ -160,19 +160,23 @@ LinkedList<T>* LinkedList<T>::insertAfter(LinkedList<T>* newNode)
     if(nullptr == newNode)
         return nullptr;
 
-    newNode->tail()->setNext(next());
+    LinkedList<T>* newNodeTail = newNode->tail();
+
+    newNodeTail->setNext(next());
     setNext(newNode);
 
-    return newNode;
+    return newNodeTail;
 }
 
 template <typename T>
 LinkedList<T>& LinkedList<T>::insertAfter(LinkedList<T>& newNode)
 {
-    newNode.tail()->setNext(next());
+    LinkedList<T>* newNodeTail = newNode->tail();
+
+    newNodeTail->setNext(next());
     setNext(newNode);
 
-    return newNode;
+    return *newNodeTail;
 }
 
 template <typename T>
