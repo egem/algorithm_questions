@@ -475,3 +475,73 @@ TEST_F(DeleteNode_Input_Match_Node_Address, test_RETURN_TRUE_when_MATCH_NODE_FOU
 }
 
 
+/*
+ * Function under test : bool deleteNode(LinkedList<T>& matchNode);
+ */
+
+TEST_F(DeleteNode_Input_Match_Node_Reference, test_RETURN_FALSE_when_MATCH_NODE_NOT_FOUND)
+{
+    /************************** Arrange **************************/
+    LinkedList<int> l1(5), l2(7);
+    bool expectedOutput = false;
+
+    /************************** Act **************************/
+    bool output = l1.deleteNode(l2);
+
+    /************************** Assert **************************/
+    EXPECT_EQ(expectedOutput, output)   << TestInfo();
+}
+
+TEST_F(DeleteNode_Input_Match_Node_Reference, test_RETURN_TRUE_when_MATCH_NODE_ITSELF)
+{
+    /************************** Arrange **************************/
+    LinkedList<int> l1(5), l2(7);
+    bool expectedOutput = true;
+
+    l1.insertAfter(l2);
+
+    /************************** Act **************************/
+    bool output = l1.deleteNode(l1);
+
+    /************************** Assert **************************/
+    EXPECT_EQ(expectedOutput, output)       << TestInfo();
+    EXPECT_EQ(nullptr, l1.next())           << TestInfo();
+}
+
+TEST_F(DeleteNode_Input_Match_Node_Reference, test_RETURN_TRUE_when_MATCH_NODE_FOUND)
+{
+    /************************** Arrange **************************/
+    LinkedList<int> l1(5), l2(7);
+    bool expectedOutput = true;
+
+    l1.insertAfter(l2);
+
+    /************************** Act **************************/
+    bool output = l1.deleteNode(l2);
+
+    /************************** Assert **************************/
+    EXPECT_EQ(expectedOutput, output)   << TestInfo();
+    EXPECT_EQ(nullptr, l1.next())           << TestInfo();
+}
+
+TEST_F(DeleteNode_Input_Match_Node_Reference, test_RETURN_TRUE_when_MATCH_NODE_FOUND_and_NEW_NODE_HAS_NEXT)
+{
+    /************************** Arrange **************************/
+    LinkedList<int> l1(5), l2(7), l3(9), l4(11), l5(13);
+    bool expectedOutput = true;
+    bool output;
+
+    l1.insertAfter(l2).insertAfter(l3).insertAfter(l5).insertAfter(l4);
+
+    /************************** Act **************************/
+    output = l1.deleteNode(l5);
+
+    /************************** Assert **************************/
+    EXPECT_EQ(expectedOutput, output)       << TestInfo();
+    EXPECT_EQ(&l2, l1.next())               << TestInfo();
+    EXPECT_EQ(&l3, l2.next())               << TestInfo();
+    EXPECT_EQ(&l4, l3.next())               << TestInfo();
+    EXPECT_EQ(nullptr, l4.next())               << TestInfo();
+}
+
+

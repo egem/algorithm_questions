@@ -225,4 +225,34 @@ public:
     }
 };
 
+class DeleteNode_Input_Match_Node_Reference : public ::testing::Test
+{
+    std::string m_ClassName;
+    std::string m_FunctionName;
+    std::stringstream m_TestInfo;
+
+public:
+    DeleteNode_Input_Match_Node_Reference() :
+        m_ClassName("LinkedList<T>"),
+        m_FunctionName("bool deleteNode(LinkedList<T>& matchNode)")
+    {
+        m_TestInfo          << "Class Name    : " << m_ClassName << std::endl
+                            << "Function Name : " << m_FunctionName << std::endl;
+    }
+
+    virtual void SetUp()
+    {
+
+    }
+
+    virtual void TearDown()
+    {
+
+    }
+
+    std::string TestInfo()
+    {
+        return m_TestInfo.str();
+    }
+};
 #endif /* FORWARD_LINK_LIST_TEST_UNIT_INC_TEST_FORWARD_LINK_LIST_H_ */

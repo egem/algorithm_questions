@@ -260,6 +260,12 @@ bool LinkedList<T>::deleteNode(LinkedList<T>* matchNode)
 template <typename T>
 bool LinkedList<T>::deleteNode(LinkedList<T>& matchNode)
 {
+    if(this == &matchNode)
+    {
+        setNext(nullptr);
+        return true;
+    }
+
     bool isMatchNodeFound = false;
 
     for(LinkedList<T>* node = this; nullptr != node; node = node->next())
