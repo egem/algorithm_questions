@@ -17,3 +17,6 @@ TESTS_DIR := $(CUR_DIR)
 
 all: 
 	$(foreach TEST, $(TESTS), @make -f $(TESTS_DIR)/$(TEST)/Makefile all)
+
+clean:
+	$(foreach TEST, $(TESTS), @make -f $(TESTS_DIR)/$(TEST)/Makefile clean)

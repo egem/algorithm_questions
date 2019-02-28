@@ -12,8 +12,12 @@ IMPS       := forward_link_list
 
 IMPS_DIR   := $(PROJECT_ROOT_DIR)
 
-.PHONY: all
+.PHONY: all clean $(IMPS)
 
-all: 
-	$(foreach IMP, $(IMPS), make -f $(IMPS_DIR)/$(IMP)/Makefile all)
-	
+all: $(IMPS)
+
+$(IMPS):
+	@make -f $@/Makefile all
+
+clean:
+	$(foreach IMP, $(IMPS), @make -f $(IMPS_DIR)/$(IMP)/Makefile clean)

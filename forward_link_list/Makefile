@@ -33,9 +33,11 @@ CFLAGS += -I$(INC_DIR)
 # https://www.gnu.org/software/make/manual/make.html#Automatic-Prerequisites Title : 4.14 Generating Prerequisites Automatically 
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEP_DIR)/$*.Td
 
-.PHONY: all clean cleanObj cleanBin cleanDep test
+.PHONY: all test clean cleanObj cleanBin cleanDep cleanTest
 
-all : $(BIN_DIR)/$(EXE_NAME) test
+all : build test
+
+build : $(BIN_DIR)/$(EXE_NAME)
 
 test :
 	@make -f $(TEST_DIR)/Makefile all
@@ -66,7 +68,7 @@ $(DEP_DIR):
 	@printf "Creating directory $(DEP_DIR)\n"
 	@mkdir $(DEP_DIR)
 
-clean: cleanObj cleanBin cleanDep
+clean: cleanObj cleanBin cleanDep cleanTest
 
 cleanObj:
 	@printf "Cleaning objects...\n"
@@ -79,5 +81,8 @@ cleanBin:
 cleanDep:
 	@printf "Cleaning dependencies...\n"
 	@rm -rf $(DEP_DIR)
-	
+
+cleanTest:
+	@printf "Cleaning test outputs...\n"
+	@make -f $(TEST_DIR)/Makefile clean
 

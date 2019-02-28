@@ -46,7 +46,7 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $(DEP_DIR)/$*.Td
 
 .PHONY : all clean cleanObj cleanDep cleanTest
 
-all : $(TESTS) | $(GOOGLETEST_DIR)
+all : $(TESTS) $(GOOGLETEST_DIR)
 	$(foreach TEST, $(TESTS), $(TEST))
 
 $(BIN_DIR)/% : $(OBJ_DIR)/%.o | $(BIN_DIR)
