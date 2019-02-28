@@ -2,7 +2,7 @@
  * LinkedList.h
  *
  *  Created on: Feb 23, 2019
- *      Author: z003xwaj
+ *      Author: Ahmet Ege Mahlec
  */
 
 #ifndef REVERSE_LINKED_LIST_INC_LINKEDLIST_H_

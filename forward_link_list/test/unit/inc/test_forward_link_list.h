@@ -2,7 +2,7 @@
  * test_forward_link_list.h
  *
  *  Created on: Feb 28, 2019
- *      Author: z003xwaj
+ *      Author: Ahmet Ege Mahlec
  */
 
 #ifndef FORWARD_LINK_LIST_TEST_UNIT_INC_TEST_FORWARD_LINK_LIST_H_

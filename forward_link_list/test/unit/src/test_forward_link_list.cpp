@@ -2,7 +2,7 @@
  * test_forward_link_list.cpp
  *
  *  Created on: Feb 26, 2019
- *      Author: z003xwaj
+ *      Author: Ahmet Ege Mahlec
  */
 
 #include "gtest/gtest.h"

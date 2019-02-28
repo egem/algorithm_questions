@@ -2,7 +2,7 @@
  * main.cpp
  *
  *  Created on: Feb 23, 2019
- *      Author: z003xwaj
+ *      Author: Ahmet Ege Mahlec
  */
 
 #include <iostream>
